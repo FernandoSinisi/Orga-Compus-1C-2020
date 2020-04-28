@@ -1,0 +1,73 @@
+guia de inicio:
+
+1º solo la primera vez instalar:
+
+sudo apt install qemu-system-mips
+
+wget https://people.debian.org/~jcowgill/qemu-mips/debian-stretch-mips.qcow2
+
+wget https://people.debian.org/~jcowgill/qemu-mips/initrd.img-4.9.0-4-5kc-malta.mips.stretch
+
+wget https://people.debian.org/~jcowgill/qemu-mips/vmlinux-4.9.0-4-5kc-malta.mips.stretch
+
+2º iniciar qemu:
+
+qemu-system-mips64 \
+ -M malta -cpu MIPS64R2-generic -m 2G \
+ -append 'root=/dev/vda console=ttyS0 mem=2048m \
+ net.ifnames=0 nokaslr' \
+ -device virtio-net,netdev=user.0 \
+ -netdev user,id=user.0,hostfwd=tcp::5555-:22 -net nic \
+ -device usb-kbd -device usb-tablet \
+ -kernel vmlinux-* -initrd initrd.img-* \
+ -drive file=$(echo debian-*.qcow2),if=virtio -nographic
+
+3º Loguearse con usuario root al salir msj: debian-stretch-mips login:
+
+4º cada vez que entro a qemu ejecutar:
+
+dhclient
+
+5º instalar la primera vez:
+apt-get update
+apt-get install gcc
+apt-get install gdb
+apt-get install vim
+apt-get install ssh
+
+6º setear contraseña del user root solo la primera vez
+
+passwd root
+
+7º la primera vez modificar el sshd_config, agregando linea: PermitRootLogin yes ,y luego reiniciar el servicio sshd:
+
+vim /etc/ssh/sshd_config
+
+service sshd restart
+
+
+[COPIAR ARCHIVOS DE HOST A GUEST]    
+
+ scp -P 5555 holamundo.c mystrlen.S root@localhost:/root/compus
+
+[COMPILAR]
+
+gcc -Wall -g -O0 -o holamundo holamundo.c mystrlen.S    {-O0 no hace optimizaciones}
+
+[APAGAR]
+
+poweroff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
