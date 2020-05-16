@@ -99,19 +99,17 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
 	char* line = NULL;
 	size_t size = 0;
 	
-	ssize_t len = len = getline(&line, &size, input_file);
+	ssize_t len = getline(&line, &size, input_file);
 	while(len != -1){
 		r = add_values(line,len,matrix_a);
 		if(r != 0){
 			fprintf(stderr, "Error, Problema en la lectura del archivo \n");
 			free((void*)line);
-			fclose(input_file);
 			return -1;;
 		}
 		len = getline(&line, &size, input_file);
 	}
 	free((void*)line);
-	fclose(input_file);
 	return 0;
 }
 
@@ -132,8 +130,17 @@ int run(size_t i, size_t m, size_t n ,FILE * input_file){
 		destroy_matrix(matrix_a);
 		return -1;
 	}
-    
 	
+	//aca las iteraciones para actualizar la matriz
+	/*	crear .PBM
+	 * for(int i = 0, i < i, i++){
+	 * 		update_matrix(matriz_a);
+	 * 		crear .PBM
+	 * }
+	 * 
+	 * 
+	 * */
+	destroy_matrix(matrix_a);
 	return 0;
 }
 
@@ -162,6 +169,7 @@ int main(int argc, char *argv[]) {
 
 
     if (r < 0) {
+		fprintf(stderr, "Error, Ejecucion fallida de convay\n");
         exit(-r);
     }
 
