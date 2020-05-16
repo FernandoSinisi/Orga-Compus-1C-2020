@@ -7,15 +7,15 @@
 #include <stdbool.h>
 
 struct matrix {
-    size_t rows;
-    size_t cols;
-    double* array;
+    unsigned int rows;
+    unsigned int cols;
+    unsigned char* array;
 };
 
 typedef struct matrix matrix_t;
 
 // Constructor de matrix_t
-matrix_t* create_matrix(size_t rows, size_t cols);
+matrix_t* create_matrix(unsigned int rows, unsigned int cols);
 
 // Destructor de matrix_t
 void destroy_matrix(matrix_t* m);
@@ -24,7 +24,7 @@ void destroy_matrix(matrix_t* m);
 int print_matrix(FILE* fp, matrix_t* m);
 
 //Agrega un valor 1 (celda viva) en la coordenada indicada
-int add_value(matrix_t* matrix_a, int* pos);
+int add_value(matrix_t* matrix_a, unsigned int* pos);
 
 
 #endif

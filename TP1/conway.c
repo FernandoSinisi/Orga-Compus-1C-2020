@@ -18,7 +18,7 @@ const char HELP[] = "Uso:\n\tconway -h\n\tconway -V\n\tconway i M N inputfile [-
  *                    FUNCIONES AUXILIARES
  * *****************************************************************/
 
-int get_num(char* str){
+unsigned int get_num(char* str){
 	if(str[0]=='0' && strlen(str)==1) return 0;
 	for(int i = 0; i < strlen(str)-1;i++){
 		if(!isdigit(str[i]))return -1;
@@ -66,7 +66,7 @@ int add_values(char* line,ssize_t len, matrix_t* matrix_a ){
 	char *token;
 	int num;
 	int cont = 0;
-	int pos[2];
+	unsigned int pos[2];
 	
 	token = strtok(line, space);
 	
@@ -161,9 +161,9 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
     
-    size_t i = get_num(argv[1]);
-	size_t m = get_num(argv[2]);
-	size_t n = get_num(argv[3]);
+    unsigned int i = get_num(argv[1]);
+	unsigned int m = get_num(argv[2]);
+	unsigned int n = get_num(argv[3]);
     
     r = run(i,m,n,input_file);
 
