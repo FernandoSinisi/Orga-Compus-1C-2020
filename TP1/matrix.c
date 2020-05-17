@@ -3,6 +3,9 @@
 
 void check_fprint(FILE* fp, int copy);
 
+unsigned int coordToArrayIndex(matrix_t* matrix, int x, int y){
+    return x*matrix->rows + y;
+}
 
 matrix_t* create_matrix(unsigned int rows, unsigned int cols) {
     
@@ -30,7 +33,13 @@ void destroy_matrix(matrix_t* m) {
 int add_value(matrix_t* matrix_a, unsigned int *pos){
 	fprintf(stdout, "llego al add_value de matrix %d\n", pos[0]);
 	fprintf(stdout, "llego al add_value de matrix %d\n", pos[1]);
-	//falta guardar valor 1 en posicion pos[0],pos[1]
+
+    int index;
+    if (index = coordToArrayIndex(pos[0], pos[1]) > matrix_a->rows*matrix_a->cols - 1){
+        return 1;
+    }
+
+	matrix_a->array[index] = 1;
 	return 0;
 }
 
