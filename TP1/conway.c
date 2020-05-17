@@ -43,15 +43,20 @@ int verify_argv(int argc, char *argv[]) {
         fprintf(stderr, "Parametro desconocido: %s\n", argv[1]);
         return -1;
     }
-    if (argc == 7) {
+    if (argc == 5 || argc == 7) {
 		int i = get_num(argv[1]);
 		int m = get_num(argv[2]);
 		int n = get_num(argv[3]);
 		
-        if (!strcmp(argv[5], OUT_PREFIX) && i > 0 && m > 0 && n > 0) {
-            fprintf(stdout, "%s\n", "Aca ejecutaria juego\n");
-            return 0;
-        }
+		int numbers_ok =  i > 0 && m > 0 && n > 0;
+		int prefix_needed = argc == 7;
+
+		if ((prefix_needed && !strcmp(argv[5], OUT_PREFIX)) || !prefix_needed){
+			if (numbers_ok) {
+				fprintf(stdout, "%s\n", "Aca ejecutaria juego\n");
+				return 0;
+			}			
+		}
         fprintf(stderr, "%s\n", "Error: Parametros incorrectos. Pruebe convay -h para ver ejemplo");
         return -1;
     }
@@ -118,7 +123,7 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
  *                    FUNCIONES PRINCIPALES
  * *****************************************************************/
 
-int run(size_t i, size_t m, size_t n ,FILE * input_file){
+int run(size_t i, size_t m, size_t n ,FILE * input_file, char* output_prefix){
 	
 	int r;
 	matrix_t* matrix_a = create_matrix(m, n);
@@ -166,8 +171,11 @@ int main(int argc, char *argv[]) {
 	unsigned int m = get_num(argv[2]);
 	unsigned int n = get_num(argv[3]);
     
-    r = run(i,m,n,input_file);
-
+	if (argc == 7){
+		r = run(i, m, n, input_file, argv[6]);
+	} else {
+		r = run(i, m, n, input_file, argv[4]);
+	}
 
     if (r < 0) {
 		fprintf(stderr, "Error, Ejecucion fallida de convay\n");
