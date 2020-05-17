@@ -54,22 +54,18 @@ int add_value(matrix_t* matrix_a, unsigned int *pos){
 
 
 int print_matrix(FILE* fp, matrix_t* m) {
-
-    size_t i = 0;
     int copy;
 
-    copy = fprintf(fp, "%d", m->rows);
-    check_fprint(fp, copy);
-
-    size_t n = m->rows;
-    for (; i < n ; i++) {
-        copy = fprintf(fp," %d", m->array[i]);
-	    check_fprint(fp, copy);
-	}
-
-    copy = fprintf(fp, "\n");
-    check_fprint(fp, copy);
-
+    for (int i = 0; i < m->rows*m->cols; i++){
+        copy = fprintf(fp, "%d", m->array[i]);
+        check_fprint(fp, copy);
+        copy = fprintf(fp, " ");
+        check_fprint(fp, copy);
+        if (!((i+1) % m->rows)){
+            copy = fprintf(fp, "\n");
+            check_fprint(fp, copy);
+        }
+    }
     return 0;
 }
 
