@@ -7,7 +7,7 @@ extern unsigned int vecinos(unsigned char *a, unsigned int i, unsigned int j,
 void check_fprint(FILE* fp, int copy);
 
 unsigned int coordToArrayIndex(matrix_t* matrix, int x, int y){
-    return x*matrix->rows + y;
+    return x*matrix->cols + y;
 }
 
 matrix_t* create_matrix(unsigned int rows, unsigned int cols) {
