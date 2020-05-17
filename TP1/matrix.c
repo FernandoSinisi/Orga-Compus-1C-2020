@@ -63,3 +63,6 @@ void check_fprint(FILE* fp, int copy) {
     }
 }
 
+int iterate_matrix(matrix_t* matrix) {
+
+}

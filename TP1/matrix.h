@@ -26,5 +26,8 @@ int print_matrix(FILE* fp, matrix_t* m);
 //Agrega un valor 1 (celda viva) en la coordenada indicada
 int add_value(matrix_t* matrix_a, unsigned int* pos);
 
+//Realiza una iteracion del juego
+int iterate_matrix(matrix_t* matrix);
+
 
 #endif
