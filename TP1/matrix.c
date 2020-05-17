@@ -29,8 +29,14 @@ matrix_t* create_matrix(unsigned int rows, unsigned int cols) {
 }
 
 void destroy_matrix(matrix_t* m) {
-    free(m->array);
-    free(m);
+    if (m->array){
+        free(m->array);
+        m->array = NULL;
+    }
+    if (m){
+        free(m);
+        m = NULL;
+    }
 }
 
 int add_value(matrix_t* matrix_a, unsigned int *pos){
