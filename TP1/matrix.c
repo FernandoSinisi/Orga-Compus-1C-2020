@@ -56,7 +56,26 @@ int add_value(matrix_t* matrix_a, unsigned int *pos){
 
 int print_matrix(FILE* fp, matrix_t* m) {
     int copy;
-
+    
+    /*El formato de archivo .pbm es:
+    
+    *	P1
+    *	M N		   (tamaño de la matriz)
+    * 	1 1 1 0 0  (cada numero 1 es un px "pintado")
+    * 	0 0 0 1 0
+    * 	0 1 1 0 1
+    * 
+    */
+    
+	copy = fprintf(fp,"P1\n");
+    check_fprint(fp, copy);
+    copy = fprintf(fp, "%d", m->rows);
+    check_fprint(fp, copy);
+    copy = fprintf(fp, " ");
+    copy = fprintf(fp, "%d", m->cols);
+    check_fprint(fp, copy);
+    copy = fprintf(fp, "\n");
+    check_fprint(fp, copy);
     for (int i = 0; i < m->rows*m->cols; i++){
         copy = fprintf(fp, "%d", m->array[i]);
         check_fprint(fp, copy);
