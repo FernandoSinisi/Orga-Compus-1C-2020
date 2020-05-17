@@ -145,7 +145,7 @@ int run(size_t i, size_t m, size_t n ,FILE * input_file, char* output_prefix){
 		*/
 		char filename[50] = {0};
 		char num[4] = {0};
-		sprintf(num, "%03d", j);
+		sprintf(num, "%03d", j+1);
 		strcpy(filename, output_prefix);
 		strcpy(&filename[prefix_len], "_");
 		strcpy(&filename[prefix_len+1], num);
