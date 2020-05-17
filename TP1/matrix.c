@@ -1,6 +1,9 @@
 #include <errno.h>
 #include "matrix.h"
 
+extern unsigned int vecinos(unsigned char *a, unsigned int i, unsigned int j,
+                            unsigned int M, unsigned int N);
+
 void check_fprint(FILE* fp, int copy);
 
 unsigned int coordToArrayIndex(matrix_t* matrix, int x, int y){
