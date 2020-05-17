@@ -1,5 +1,6 @@
 #include <errno.h>
 #include "matrix.h"
+#define DOT_SIZE 64
 
 extern unsigned int vecinos(unsigned char *a, unsigned int i, unsigned int j,
                             unsigned int M, unsigned int N);
@@ -62,37 +63,35 @@ int print_matrix(FILE* fp, matrix_t* m) {
     * 	1 1 1 0 0  (cada numero 1 es un px "pintado")
     * 	0 0 0 1 0
     * 	0 1 1 0 1
-    * 
     */
     
 	copy = fprintf(fp,"P1\n");
     check_fprint(fp, copy);
-    copy = fprintf(fp, "%d", m->rows);
+    copy = fprintf(fp, "%d", m->rows*DOT_SIZE);
     check_fprint(fp, copy);
     copy = fprintf(fp, " ");
-    copy = fprintf(fp, "%d", m->cols);
+    copy = fprintf(fp, "%d", m->cols*DOT_SIZE);
     check_fprint(fp, copy);
     copy = fprintf(fp, "\n");
     check_fprint(fp, copy);
-    for (int i = 0; i < m->rows*m->cols; i++){
-        copy = fprintf(fp, "%d", m->array[i]);
-        fprintf(stdout, "%d", m->array[i]);
-        check_fprint(fp, copy);
-        copy = fprintf(fp, " ");
-        fprintf(stdout, " ");
-        check_fprint(fp, copy);
-        if (!((i+1) % m->rows)){
+    for (int i = 0; i < m->rows; i++){
+        for (int k = 0; k < DOT_SIZE; k++){
+            for (int j = 0; j < m->cols; j++){
+                int index = coordToArrayIndex(m, i, j);
+                for (int l = 0; l < DOT_SIZE; l++){
+                    copy = fprintf(fp, "%d ", m->array[index]);
+                    check_fprint(fp, copy);
+                }
+            }
             copy = fprintf(fp, "\n");
-            fprintf(stdout, "\n");
             check_fprint(fp, copy);
         }
     }
-    fprintf(stdout, "\n");
+    fflush(fp);
     return 0;
 }
 
 void check_fprint(FILE* fp, int copy) {
-    fflush(fp);
     if (copy < 0) {
         fprintf(stderr,"Error en la copia del archivo resultante\n");
         exit(EXIT_FAILURE);

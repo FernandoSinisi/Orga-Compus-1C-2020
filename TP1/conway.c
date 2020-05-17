@@ -152,10 +152,10 @@ int run(unsigned int i, unsigned int m, unsigned int n ,FILE * input_file, char*
 		iterate_matrix(matrix_a);
 
 		//Imprimo matriz
-		fprintf(stdout, "imprimiendo matriz en archivo %d\n",j);
-		fprintf(stdout, "\n");
+		fprintf(stdout, "Grabando %s...", filename);
+		fflush(stdout);
 		print_matrix(output, matrix_a);
-
+		fprintf(stdout, "OK\n");
 		//Guardo y cierro archivo
 		fflush(output);
 		fclose(output);
