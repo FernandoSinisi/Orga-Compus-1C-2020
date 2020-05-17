@@ -1,3 +1,5 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -5,7 +7,6 @@
 
 #include "matrix.h"
 
-#define _POSIX_C_SOURCE 200809L
 #define OPT_HELP "-h"
 #define OPT_VERSION "-V"
 #define OUT_PREFIX "-o"
@@ -59,7 +60,7 @@ int verify_argv(int argc, char *argv[]) {
     return -1;
 }
 
-int add_values(char* line,ssize_t len, matrix_t* matrix_a ){
+int add_values(char* line,size_t len, matrix_t* matrix_a ){
 	fprintf(stdout, "tamaño de la linea %ld\n", len);
 	fprintf(stdout, "linea %s\n", line);
 	const char *space = " ";
@@ -99,7 +100,7 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
 	char* line = NULL;
 	size_t size = 0;
 	
-	ssize_t len = getline(&line, &size, input_file);
+	size_t len = getline(&line, &size, input_file);
 	while(len != -1){
 		r = add_values(line,len,matrix_a);
 		if(r != 0){
