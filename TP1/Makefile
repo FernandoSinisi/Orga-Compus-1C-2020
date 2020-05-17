@@ -29,3 +29,4 @@ video:
 .PHONY clean:
 	@rm $(RM_FLAGS) *.pbm
 	@rm $(RM_FLAGS) bin/*
+	@rm $(RM_FLAGS) *.avi
