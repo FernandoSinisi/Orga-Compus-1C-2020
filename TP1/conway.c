@@ -123,7 +123,7 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
  *                    FUNCIONES PRINCIPALES
  * *****************************************************************/
 
-int run(size_t i, size_t m, size_t n ,FILE * input_file, char* output_prefix){
+int run(unsigned int i, unsigned int m, unsigned int n ,FILE * input_file, char* output_prefix){
 	
 	int r;
 	matrix_t* matrix_a = create_matrix(m, n);
