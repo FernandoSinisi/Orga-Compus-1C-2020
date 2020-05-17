@@ -88,8 +88,10 @@ int iterate_matrix(matrix_t* matrix) {
             } else {
                 next_matrix[index] = 1;
             }
-            free(matrix->array);
-            matrix->array = next_matrix;
         }
     }
+    
+    if (matrix->array)
+        free(matrix->array);
+    matrix->array = next_matrix;
 }
