@@ -137,15 +137,34 @@ int run(size_t i, size_t m, size_t n ,FILE * input_file, char* output_prefix){
 		return -1;
 	}
 	
-	//aca las iteraciones para actualizar la matriz
-	/*	crear .PBM
-	 * for(int i = 0, i < i, i++){
-	 * 		update_matrix(matriz_a);
-	 * 		crear .PBM
-	 * }
-	 * 
-	 * 
-	 * */
+	size_t prefix_len = strlen(output_prefix);
+	for (int j = 0; j < i; j++){
+		/*
+		Obtengo el nombre del archivo de salida:
+		[output_prefix]_[j].pbm
+		*/
+		char filename[50] = {0};
+		char num[4] = {0};
+		sprintf(num, "%03d", j);
+		strcpy(filename, output_prefix);
+		strcpy(&filename[prefix_len], "_");
+		strcpy(&filename[prefix_len+1], num);
+		strcpy(&filename[prefix_len+1+3], ".pbm");
+
+		//Creo el archivo
+		FILE* output = fopen(filename, "w+");
+
+		//Hago la iteracion del juego
+		iterate_matrix(matrix_a);
+
+		//Imprimo matriz
+		print_matrix(output, matrix_a);
+
+		//Guardo y cierro archivo
+		fflush(output);
+		fclose(output);
+	}
+	
 	destroy_matrix(matrix_a);
 	return 0;
 }
