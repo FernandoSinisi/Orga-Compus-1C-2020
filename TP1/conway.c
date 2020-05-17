@@ -66,8 +66,6 @@ int verify_argv(int argc, char *argv[]) {
 }
 
 int add_values(char* line,size_t len, matrix_t* matrix_a ){
-	fprintf(stdout, "tamaño de la linea %ld\n", len);
-	fprintf(stdout, "linea %s\n", line);
 	const char *space = " ";
 	char *token;
 	int num;
@@ -77,16 +75,12 @@ int add_values(char* line,size_t len, matrix_t* matrix_a ){
 	token = strtok(line, space);
 	
 	while( token != NULL ) {
-		fprintf(stdout, "contador %d\n", cont);
-		fprintf(stdout, "token %s\n", token);
 		num = get_num(token);
-		fprintf(stdout, "numero leido %d\n", num);
 		if(num == -1 || cont >= 2){
 			fprintf(stderr, "%s\n", "Error: Archivo de entrada invalido");
 			return -1;
 		}
 		pos[cont] = num;
-		fprintf(stdout, "pos en contador %d\n", pos[cont]);
 		cont++;
 		token = strtok(NULL, space);
 	}
@@ -158,6 +152,8 @@ int run(unsigned int i, unsigned int m, unsigned int n ,FILE * input_file, char*
 		iterate_matrix(matrix_a);
 
 		//Imprimo matriz
+		fprintf(stdout, "imprimiendo matriz en archivo %d\n",j);
+		fprintf(stdout, "\n");
 		print_matrix(output, matrix_a);
 
 		//Guardo y cierro archivo

@@ -40,8 +40,6 @@ void destroy_matrix(matrix_t* m) {
 }
 
 int add_value(matrix_t* matrix_a, unsigned int *pos){
-	fprintf(stdout, "llego al add_value de matrix %d\n", pos[0]);
-	fprintf(stdout, "llego al add_value de matrix %d\n", pos[1]);
 
     int index = coordToArrayIndex(matrix_a, pos[0], pos[1]);
     int limit = matrix_a->rows * matrix_a->cols;
@@ -78,14 +76,18 @@ int print_matrix(FILE* fp, matrix_t* m) {
     check_fprint(fp, copy);
     for (int i = 0; i < m->rows*m->cols; i++){
         copy = fprintf(fp, "%d", m->array[i]);
+        fprintf(stdout, "%d", m->array[i]);
         check_fprint(fp, copy);
         copy = fprintf(fp, " ");
+        fprintf(stdout, " ");
         check_fprint(fp, copy);
         if (!((i+1) % m->rows)){
             copy = fprintf(fp, "\n");
+            fprintf(stdout, "\n");
             check_fprint(fp, copy);
         }
     }
+    fprintf(stdout, "\n");
     return 0;
 }
 
