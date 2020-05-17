@@ -52,3 +52,6 @@ Mkfile.old
 dkms.conf
 
 .DS_Store
+
+# Ignorar la carpeta del ejecutable
+TP1/bin/*
