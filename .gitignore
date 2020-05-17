@@ -55,3 +55,6 @@ dkms.conf
 
 # Ignorar la carpeta del ejecutable
 TP1/bin/*
+
+# Ignorar output del programa
+*.pbm
