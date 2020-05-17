@@ -43,8 +43,9 @@ int add_value(matrix_t* matrix_a, unsigned int *pos){
 	fprintf(stdout, "llego al add_value de matrix %d\n", pos[0]);
 	fprintf(stdout, "llego al add_value de matrix %d\n", pos[1]);
 
-    int index;
-    if (index = coordToArrayIndex(matrix_a, pos[0], pos[1]) > matrix_a->rows*matrix_a->cols - 1){
+    int index = coordToArrayIndex(matrix_a, pos[0], pos[1]);
+    int limit = matrix_a->rows * matrix_a->cols;
+    if (index >= limit){
         return 1;
     }
 
