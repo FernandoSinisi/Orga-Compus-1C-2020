@@ -1,6 +1,6 @@
 RM_FLAGS := -f -v
 
-ifndef $(CFLAGS)
+ifndef CFLAGS
 CFLAGS := -Wall
 endif
 
