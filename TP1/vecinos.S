@@ -1,5 +1,4 @@
-#include<sys/regdef.h>
-#include <mips/regdef.h>
+#include <regdef.h>
 
 #define SS 32
 #define O_N 48
@@ -18,7 +17,7 @@
 
 		.rdata
 		.align 2
-		valor_1:	.asciiz     "1"
+		valor_1: .asciiz     "1"
 
 		.text
 		.align 2
@@ -26,15 +25,15 @@
 		.ent vecinos
 
 vecinos:
-		.frame  $fp, SS, ra
+		.frame  fp, SS, ra
 		.set    noreorder
 		.cpload t9
 		.set    reorder
 		subu sp, sp, SS
 
 		sw   gp, O_GP(sp)  	# salvo gp
-		sw   $fp, O_FP(sp)  # salvo fp
-		move $fp, sp
+		sw   fp, O_FP(sp)   # salvo fp
+		move fp, sp
 		
 		sw   a0, O_a(fp)
 		sw   a1, O_i(fp)
@@ -98,7 +97,7 @@ for2:
 done:
 		lw v0, O_n(fp)		# obtengo el valor actual de n y lo guardo en el registro de retorno v0
 	
-        lw $fp, O_FP(sp)	# Destruimos el frame.
+        lw fp, O_FP(sp)	# Destruimos el frame.
         addu    sp, sp, SS
 
         # Retorno
