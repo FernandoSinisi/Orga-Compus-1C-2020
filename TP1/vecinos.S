@@ -17,7 +17,6 @@
 
 		.data
 		.align 2
-		valor_1: .asciiz     "1"
 
 		.text
 		.align 2
@@ -50,8 +49,8 @@ vecinos:
 
 for1:
 		lw t2, O_k(fp)  	# cargo en t2 el valor actual de k
-		ble t2, t1, done 	# si el iterador t2 es menor o igual a 1 (t1), salto a etiqueta done
 		addi t2, t2, 1		# aumento el iterador t2 en 1
+		bgt t2, t1, done 	# si el iterador t2 es menor o igual a 1 (t1), salto a etiqueta done
 		sw t2, O_k(fp) 		# guardo el nuevo valor de k (aumentado) en el stack frame en posicion 4
 		li t1, -2 			# aux = -2
 		sw t1, O_l(fp)		# al terminar un ciclo del primer for vuelvo a poner en el valor inicial al iterador del segundo for 
@@ -59,12 +58,12 @@ for1:
 for2:	
 		lw t3, O_l(fp)		# cargo en t2 el valor actual de l
 		li t1, 1			# t1 = 1
-		ble t3, t1, for1	# si el iterador t3 es menor o igual a 1 (t1), salto a etiqueta for1
 		addi t3, t3, 1		# aumento el iterador t3 en 1
+		bgt t3, t1, for1	# si el iterador t3 es menor o igual a 1 (t1), salto a etiqueta for1
 		sw t3, O_l(fp)		# guardo el nuevo valor de l (aumentado) en el stack frame en posicion 0
 	
 		or t1, t3, t2		# k o l = t1
-		beqz t1, for2		# si el resultado de k o l es 0 salto a la rtiqueta for2 (continue)
+		beqz t1, for2		# si el resultado de k y l es 0 salto a la rtiqueta for2 (continue)
 
 		add t1, a3, a1 		# sumo M + i
 		add t1, t1, t2		# sumo (M+i) + k
@@ -84,8 +83,7 @@ for2:
 		
 		addu t5, a0, t4 	# a la direccion de comienzo del array (a0) le sumo index (unsigned char = 1 byte)
         lb t5, 0(t5)		# t5 es el byte del array en la posicion index
-		la t1, valor_1		# cargo la direccion de el string "1"
-		lb t1, 0(t1)			# cargo el primer byte de la direccion guardada en t1 (la direccion del string "1")
+		li t1, 1			# cargo el primer byte de la direccion guardada en t1 (la direccion del string "1")
 		bne t5, t1, for2	# salto a la etiqueta for si el caracter "1" es diferente al valor de array[index]
 		
 		lw t1, O_n(fp)		# recupero el valor de n actual
