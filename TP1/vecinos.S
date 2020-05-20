@@ -15,7 +15,7 @@
 #define O_k 4
 #define O_l 0
 
-		.rdata
+		.data
 		.align 2
 		valor_1: .asciiz     "1"
 
@@ -85,7 +85,7 @@ for2:
 		addu t5, a0, t4 	# a la direccion de comienzo del array (a0) le sumo index (unsigned char = 1 byte)
         lb t5, 0(t5)		# t5 es el byte del array en la posicion index
 		la t1, valor_1		# cargo la direccion de el string "1"
-		lb t1, t1			# cargo el primer byte de la direccion guardada en t1 (la direccion del string "1")
+		lb t1, 0(t1)			# cargo el primer byte de la direccion guardada en t1 (la direccion del string "1")
 		bne t5, t1, for2	# salto a la etiqueta for si el caracter "1" es diferente al valor de array[index]
 		
 		lw t1, O_n(fp)		# recupero el valor de n actual
