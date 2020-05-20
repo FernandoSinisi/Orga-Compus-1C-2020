@@ -1,0 +1,25 @@
+
+Compilar: 
+	make conway		-Compila el programa version C 
+	make conway-asm 	-Compila el programa version MIPS Assembly 
+
+Correr:
+	./bin/conway <iteraciones> <filas> <columnas> <entrada> [-o <output_prefix>]
+
+Ejemplo:
+	./bin/conway 5 10 10 glider -o estado
+	Correra el programa con 5 iteraciones, indicando que la matriz es de 10x10
+	el archivo de entrada glider y las salidas deben tener el nombre 'estado_nnn.pbm'
+
+Crear video:
+	make video name=<nombre_video>	-El parametro 'name' se puede omitir en cuyo caso se usara 'out'
+
+Para usar otro compilador usar el parámetro 'cc':
+	make conway cc=clang
+
+Para agregar flags de compilación usar el parámetro flags:
+	make conway flags='-ggdb'
+
+Para cambiar la ruta del archivo de salida usar el parámetro 'path':
+	make conway path='/home'
+
