@@ -83,8 +83,8 @@ for2:
 		
 		addu t5, a0, t4 	# a la direccion de comienzo del array (a0) le sumo index (unsigned char = 1 byte)
         lb t5, 0(t5)		# t5 es el byte del array en la posicion index
-		li t1, 1			# cargo el primer byte de la direccion guardada en t1 (la direccion del string "1")
-		bne t5, t1, for2	# salto a la etiqueta for si el caracter "1" es diferente al valor de array[index]
+		li t1, 1			# cargo 1 en t1 para comparar contra la posicion actual del array
+		bne t5, t1, for2	# salto a la etiqueta for si el array[index] no contiene 1
 		
 		lw t1, O_n(fp)		# recupero el valor de n actual
 		addi t1, t1, 1 		# aumento el valor de n
