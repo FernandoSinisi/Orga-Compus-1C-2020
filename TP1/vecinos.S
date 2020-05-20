@@ -39,7 +39,6 @@ vecinos:
 		sw   a1, O_i(fp)
 		sw   a2, O_j(fp)
 		sw   a3, O_M(fp)
-		sw   a4, O_N(fp)
 		
 		sw zero, O_n(fp)
 
@@ -72,18 +71,18 @@ for2:
 		rem t1, t1, a3		# resto de (M+i+k) / M = x
 		sw t1, O_x(fp)		# guardo el valor de x (t1) en el stack frame posicion 16
 
-		add t1, a4, a2 		# sumo N + j
+		lw t4, O_N(fp)		# recupero el valor de N en t4
+		add t1, t4, a2		# sumo N + j
 		add t1, t1, t3		# sumo (N+j) + l
-		rem t1, t1, a4		# resto de (N+j+l) / N
+		rem t1, t1, t4		# resto de (N+j+l) / N
 		sw t1, O_y(fp)		# guardo el valor de y (t1) en el stack frame posicion 12
 
-		lw t4, O_x(fp)		# recupero el valor de x en t4
-		mul t4, t4, a4		# multiplico x * N
-		add t4, t4, t1		# sumo (x*N) + y (t4 = index)
+		lw t1, O_x(fp)		# recupero el valor de x en t1
+		mul t4, t4, t1		# multiplico  N * x
+		lw t1, O_y(fp)		# recupero el valor de y en t1
+ 		add t4, t4, t1		# sumo (x*N) + y (t4 = index)
 		
-		
-		la t5, a0			# obtengo la direccion del array (OJO CON ESTO, ESTA BIEN ?? o uso directo a0)
-		addu t5, t5, t4 	# a la direccion de comienzo del array (a0) le sumo index (unsigned char = 1 byte)
+		addu t5, a0, t4 	# a la direccion de comienzo del array (a0) le sumo index (unsigned char = 1 byte)
         lb t5, 0(t5)		# t5 es el byte del array en la posicion index
 		la t1, valor_1		# cargo la direccion de el string "1"
 		lb t1, t1			# cargo el primer byte de la direccion guardada en t1 (la direccion del string "1")

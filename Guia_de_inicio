@@ -50,6 +50,9 @@ service sshd restart
 
  scp -P 5555 holamundo.c mystrlen.S root@localhost:/root/compus
 
+scp -P 5555 Makefile conway.c glider matrix.c matrix.h pento vecinos.c vecinos.S sapo  root@localhost:/root/compus/TP1
+
+
 [COMPILAR]
 
 gcc -Wall -g -O0 -o holamundo holamundo.c mystrlen.S    {-O0 no hace optimizaciones}
