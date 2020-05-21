@@ -1,7 +1,9 @@
 RM_FLAGS := -f -v
 
 CFLAGS := $(flags)
-CFLAGS += -Wall -mips32 -mlong32 -g -O0
+CFLAGS += -Wall -g -O0
+MIPSFLAGS := $(flags)
+MIPSFLAGS += -Wall -mips32 -mlong32 -g -O0
 
 ifndef $(cc)
 	CC := gcc
@@ -17,11 +19,11 @@ ifndef path
 	path := bin
 endif
 
-conway-asm: conway.c matrix.c vecinos.S
-	$(CC) $(CFLAGS) -o $(path)/$@ $^
-
 conway: *.c
 	$(CC) $(CFLAGS) -o $(path)/$@ $^
+
+conway-mips: conway.c matrix.c vecinos.S
+	$(CC) $(MIPSFLAGS) -o $(path)/$@ $^
 
 help:
 	@cat help.txt
