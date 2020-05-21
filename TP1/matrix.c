@@ -21,6 +21,7 @@ matrix_t* create_matrix(unsigned int rows, unsigned int cols) {
  
     unsigned int n = rows*cols;
     matrix->array = malloc(sizeof(unsigned char)* n);
+    memset(matrix->array, 0, sizeof(unsigned char) * n);
     if (!matrix->array) {
         free(matrix);
         return NULL;
