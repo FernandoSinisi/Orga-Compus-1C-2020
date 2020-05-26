@@ -50,7 +50,7 @@ vecinos:
 for1:
 		lw t2, O_k(fp)  	# cargo en t2 el valor actual de k
 		addi t2, t2, 1		# aumento el iterador t2 en 1
-		bgt t2, t1, done 	# si el iterador t2 es menor o igual a 1 (t1), salto a etiqueta done
+		bgt t2, t1, done 	# si el iterador t2 es mayor a 1 (t1), salto a etiqueta done
 		sw t2, O_k(fp) 		# guardo el nuevo valor de k (aumentado) en el stack frame en posicion 4
 		li t1, -2 			# aux = -2
 		sw t1, O_l(fp)		# al terminar un ciclo del primer for vuelvo a poner en el valor inicial al iterador del segundo for 
@@ -59,7 +59,7 @@ for2:
 		lw t3, O_l(fp)		# cargo en t2 el valor actual de l
 		li t1, 1			# t1 = 1
 		addi t3, t3, 1		# aumento el iterador t3 en 1
-		bgt t3, t1, for1	# si el iterador t3 es menor o igual a 1 (t1), salto a etiqueta for1
+		bgt t3, t1, for1	# si el iterador t3 mayor a 1 (t1), salto a etiqueta for1
 		sw t3, O_l(fp)		# guardo el nuevo valor de l (aumentado) en el stack frame en posicion 0
 	
 		or t1, t3, t2		# k o l = t1
