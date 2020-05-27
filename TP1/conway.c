@@ -30,6 +30,7 @@ const char HELP[] = "Uso:\n\
  *                    FUNCIONES AUXILIARES
  * *****************************************************************/
 
+//convierte string a numero
 unsigned int get_num(char* str){
 	if(str[0]=='0' && strlen(str)==1) return 0;
 	for(int i = 0; i < strlen(str)-1;i++){
@@ -40,6 +41,7 @@ unsigned int get_num(char* str){
 	return num;
 }
 
+//verifica los parámetros de entrada del programa
 int verify_argv(int argc, char *argv[]) {
 
     if (argc == 2) {
@@ -77,6 +79,7 @@ int verify_argv(int argc, char *argv[]) {
     return -1;
 }
 
+//agrega una linea del archivo a la matriz
 int add_values(char* line,size_t len, matrix_t* matrix_a ){
 	const char *space = " ";
 	char *token;
@@ -104,7 +107,7 @@ int add_values(char* line,size_t len, matrix_t* matrix_a ){
 	return 0;
 }
 
-
+//lee el archivo y agrega los valores a la matriz usando add_values
 int init_matrix(matrix_t* matrix_a,FILE * input_file){
 	
 	int r;
@@ -129,6 +132,7 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
  *                    FUNCIONES PRINCIPALES
  * *****************************************************************/
 
+//realiza el loop principal del juego
 int run(unsigned int i, unsigned int m, unsigned int n ,
 		FILE * input_file, char* output_prefix){
 	
@@ -178,7 +182,10 @@ int run(unsigned int i, unsigned int m, unsigned int n ,
 	return 0;
 }
 
-
+/*
+ * realiza las comprobaciones iniciales y lanza el juego usando
+ * las funciones anteriores
+ */
 int main(int argc, char *argv[]) {
 
     int r = verify_argv(argc, argv);
