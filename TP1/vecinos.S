@@ -107,7 +107,7 @@ done:
         lw v0, O_n(fp)      # obtengo el valor actual de n y lo guardo en el registro de
                             #  retorno v0
     
-        lw fp, O_FP(sp) # Destruimos el frame.
+        lw fp, O_FP(sp)     # Destruimos el frame.
         addu    sp, sp, SS
 
         # Retorno
