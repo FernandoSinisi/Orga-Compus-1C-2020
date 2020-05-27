@@ -101,13 +101,16 @@ void check_fprint(FILE* fp, int copy) {
 
 int iterate_matrix(matrix_t* matrix) {
 
-    unsigned char* next_matrix = malloc(sizeof(unsigned char)*matrix->rows*matrix->cols);
+    unsigned char* next_matrix = malloc(sizeof(unsigned char)
+                                        *matrix->rows
+                                        *matrix->cols);
     if (!next_matrix)
         return 1;
 
     for (unsigned int row = 0; row < matrix->rows; row++){
         for (unsigned int col = 0; col < matrix->cols; col++){
-            unsigned int n = vecinos(matrix->array, row, col, matrix->rows, matrix->cols);
+            unsigned int n = vecinos(matrix->array, row, col,
+                                     matrix->rows, matrix->cols);
             int index = coordToArrayIndex(matrix, row, col);
             if ((n < 2) || (n > 3)){
                 next_matrix[index] = 0;

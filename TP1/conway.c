@@ -53,11 +53,12 @@ int verify_argv(int argc, char *argv[]) {
 
 		if ((prefix_needed && !strcmp(argv[5], OUT_PREFIX)) || !prefix_needed){
 			if (numbers_ok) {
-				fprintf(stdout, "%s\n", "Aca ejecutaria juego\n");
+				fprintf(stdout, "%s\n", "Ejecutando juego...\n");
 				return 0;
 			}			
 		}
-        fprintf(stderr, "%s\n", "Error: Parametros incorrectos. Pruebe convay -h para ver ejemplo");
+        fprintf(stderr, "%s\n",
+        		"Error: Parametros incorrectos. Pruebe convay -h para ver ejemplo");
         return -1;
     }
 
@@ -117,7 +118,8 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
  *                    FUNCIONES PRINCIPALES
  * *****************************************************************/
 
-int run(unsigned int i, unsigned int m, unsigned int n ,FILE * input_file, char* output_prefix){
+int run(unsigned int i, unsigned int m, unsigned int n ,
+		FILE * input_file, char* output_prefix){
 	
 	int r;
 	matrix_t* matrix_a = create_matrix(m, n);
