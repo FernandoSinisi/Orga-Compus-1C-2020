@@ -86,6 +86,7 @@ int add_values(char* line,size_t len, matrix_t* matrix_a ){
 	int num;
 	int cont = 0;
 	unsigned int pos[2];
+	int r;
 	
 	token = strtok(line, space);
 	
@@ -103,7 +104,11 @@ int add_values(char* line,size_t len, matrix_t* matrix_a ){
 		fprintf(stderr, "%s\n", "Error: Archivo de entrada invalido");
 		return -1;
 	}
-	add_value(matrix_a, pos);
+	r = add_value(matrix_a, pos);
+	if (r){
+		fprintf(stderr, "%s\n", "La matriz no tiene el tamaño adecuado");
+		return 1;
+	}
 	return 0;
 }
 
@@ -118,7 +123,6 @@ int init_matrix(matrix_t* matrix_a,FILE * input_file){
 	while(len != -1){
 		r = add_values(line,len,matrix_a);
 		if(r != 0){
-			fprintf(stderr, "Error, Problema en la lectura del archivo \n");
 			free((void*)line);
 			return -1;;
 		}
@@ -166,13 +170,16 @@ int run(unsigned int i, unsigned int m, unsigned int n ,
 		FILE* output = fopen(filename, "w+");
 
 		//Hago la iteracion del juego
-		iterate_matrix(matrix_a);
+		r = iterate_matrix(matrix_a);
+		if (r) return -1;
 
 		//Imprimo matriz
 		fprintf(stdout, "Grabando %s...", filename);
 		fflush(stdout);
-		print_matrix(output, matrix_a);
+		r = print_matrix(output, matrix_a);
+		if (r) return -1;
 		fprintf(stdout, "OK\n");
+
 		//Guardo y cierro archivo
 		fflush(output);
 		fclose(output);
