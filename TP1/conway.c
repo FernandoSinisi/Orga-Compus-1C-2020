@@ -13,7 +13,18 @@
 
 const char VERSION[] = "Version 1.0\n";
 
-const char HELP[] = "Uso:\n\tconway -h\n\tconway -V\n\tconway i M N inputfile [-o outputprefix]\nOpciones:\n\t-h, --help Imprime este mensaje.\n\t-V, --versión Da la versión del programa.\n\t-o Prefijo de los archivos de salida.\nEjemplos:\n\tconway 10 20 20 glider -o estado\nLos archivos de salida se llamarán estado_n.pbm.\nSi no se da un prefijo para los archivos de salida,\nel prefijo será el nombre del archivo de entrada.\n";
+const char HELP[] = "Uso:\n\
+					\tconway -h\n\
+					\tconway -V\n\
+					\tconway i M N inputfile [-o outputprefix]\nOpciones:\n\
+					\t-h, --help Imprime este mensaje.\n\
+					\t-V, --versión Da la versión del programa.\n\
+					\t-o Prefijo de los archivos de salida.\n\
+					Ejemplos:\n\
+					\tconway 10 20 20 glider -o estado\n\
+					Los archivos de salida se llamarán estado_n.pbm.\n\
+					Si no se da un prefijo para los archivos de salida,\n\
+					el prefijo será el nombre del archivo de entrada.\n";
 
 /* *****************************************************************
  *                    FUNCIONES AUXILIARES
@@ -57,8 +68,8 @@ int verify_argv(int argc, char *argv[]) {
 				return 0;
 			}			
 		}
-        fprintf(stderr, "%s\n",
-        		"Error: Parametros incorrectos. Pruebe convay -h para ver ejemplo");
+        fprintf(stderr, "%s\n", "Error: Parametros incorrectos. \
+        						Pruebe convay -h para ver ejemplo");
         return -1;
     }
 
