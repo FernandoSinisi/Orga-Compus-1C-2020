@@ -60,5 +60,5 @@ TP1/bin/*
 *.pbm
 
 # Ignorar carpetas de CLion
-TP2/cmake-build-debug/
+TP2/cmake-build-*/
 TP2/.idea/
