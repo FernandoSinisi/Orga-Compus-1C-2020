@@ -3,13 +3,14 @@
 #include "log.h"
 
 #define MAX_LINE_SIZE 14
+#define MAX_CMD_LEN 6
 
 void input_file_init(input_file_t *this, char *filename) {
     this->file = fopen(filename, "r");
 }
 
 int parse_command(input_file_t *this, char *line) {
-    char cmd[6];
+    char cmd[MAX_CMD_LEN];
     int arg1 = -1;
     int arg2 = -1;
     int r = sscanf(line, "%s %d, %d", cmd, &arg1, &arg2);
