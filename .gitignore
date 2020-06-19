@@ -58,3 +58,7 @@ TP1/bin/*
 
 # Ignorar output del programa
 *.pbm
+
+# Ignorar carpetas de CLion
+TP2/cmake-build-debug/
+TP2/.idea/
