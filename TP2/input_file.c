@@ -54,12 +54,12 @@ void print_miss_rate(float mr) {
 }
 
 void print_read_byte(unsigned char read) {
-    console_log("Read from memory: %s", &read);
+    console_log("Data read from memory: %s", &read);
 }
 
 int input_file_execute_command(input_file_t *this, memory_t *memory) {
-    float mr;
-    unsigned char read;
+    float mr = 0;
+    unsigned char read = 0;
     switch (this->current_cmd[0]) {
         case READ_CMD:
             read = memory_read_byte(memory, this->current_cmd[1]);
