@@ -60,7 +60,7 @@ void print_miss_rate(float mr) {
 }
 
 void print_read_byte(unsigned char read) {
-    console_log("Data read from memory: %s", &read);
+    console_log("Data read from memory: %u", read);
 }
 
 int input_file_execute_command(input_file_t *this, memory_t *memory) {
