@@ -7,10 +7,11 @@
 
 int input_file_init(input_file_t *this, char *filename) {
     this->file = fopen(filename, "r");
-    if(!this->file){
+    if (!this->file) {
         fprintf(stderr, "Error: no se puede abrir el archivo\n");
         return -1;
     }
+    return 0;
 }
 
 int parse_command(input_file_t *this, char *line) {
@@ -22,7 +23,7 @@ int parse_command(input_file_t *this, char *line) {
     if (r == EOF)
         return 1;
 
-    if (strncmp(cmd, "R", 1) == 0){
+    if (strncmp(cmd, "R", 1) == 0) {
         this->current_cmd[0] = READ_CMD;
         if (arg1 < 0)
             return 1;
@@ -46,7 +47,7 @@ int parse_command(input_file_t *this, char *line) {
 
 int input_file_read_command(input_file_t *this) {
     char line[MAX_LINE_SIZE];
-    char* read = fgets(line, MAX_LINE_SIZE, this->file);
+    char *read = fgets(line, MAX_LINE_SIZE, this->file);
     if (read == NULL)
         return 1;
     if (parse_command(this, line))
@@ -77,6 +78,7 @@ int input_file_execute_command(input_file_t *this, memory_t *memory) {
             memory_flush_cache(memory);
             break;
         case MR_CMD:
+            fprintf(stdout, "Miss rate en input file:  %5f .\n",memory->cache->miss_rate);
             mr = memory_get_cache_miss_rate(memory);
             print_miss_rate(mr);
             break;

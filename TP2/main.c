@@ -19,7 +19,6 @@ int main(int argc, char** argv){
     }
 
     memory_init(&memory);
-
     while(input_file_read_command(&file) == 0){
         input_file_execute_command(&file, &memory);
     }
