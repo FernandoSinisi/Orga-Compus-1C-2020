@@ -1,7 +1,11 @@
+#include <stddef.h>
 #include "memory.h"
 #include "log.h"
 
 void memory_init(memory_t *this) {
+    this = malloc(sizeof(memory_t));
+    if (!this) return;
+
 
 }
 

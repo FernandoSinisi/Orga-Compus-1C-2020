@@ -16,7 +16,7 @@ typedef struct{
     uint32_t current_cmd[CMD_LEN];
 } input_file_t;
 
-void input_file_init(input_file_t* this, char* filename);
+int input_file_init(input_file_t* this, char* filename);
 int input_file_read_command(input_file_t* this);
 int input_file_execute_command(input_file_t* this, memory_t* memory);
 int input_file_destroy(input_file_t* this);

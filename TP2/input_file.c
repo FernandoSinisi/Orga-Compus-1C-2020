@@ -5,8 +5,12 @@
 #define MAX_LINE_SIZE 14
 #define MAX_CMD_LEN 6
 
-void input_file_init(input_file_t *this, char *filename) {
+int input_file_init(input_file_t *this, char *filename) {
     this->file = fopen(filename, "r");
+    if(!this->file){
+        fprintf(stderr, "Error: no se puede abrir el archivo\n");
+        return -1;
+    }
 }
 
 int parse_command(input_file_t *this, char *line) {

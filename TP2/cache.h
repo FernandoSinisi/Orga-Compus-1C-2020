@@ -7,6 +7,7 @@
 #define WAY_SIZE 1024
 
 typedef struct {
+    float miss_rate;
 } cache_t;
 
 void cache_init(cache_t* this);

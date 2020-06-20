@@ -2,6 +2,7 @@
 #define TP2_MEMORY_H
 
 #include "cache.h"
+#include <stdlib.h>
 
 #define MEMSIZE_BYTES 65536
 
