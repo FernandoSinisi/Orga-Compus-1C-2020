@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "cache.h"
+#include "log.h"
 
 int cache_init(cache_t *this) {
     this->miss_rate = 0;
     this->ways = malloc(sizeof(way_t) * WAYS);
     if(!this->ways){
-        //TODO CONSOLE_ERROR
+        //TODO console_log_error
         fprintf(stderr, "Error: no se pudo crear las vias de la memoria cache \n");
         return -1;
     }
