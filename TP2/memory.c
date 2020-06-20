@@ -1,32 +1,19 @@
-#include <stddef.h>
 #include <stdio.h>
 #include "memory.h"
 #include "log.h"
 
-void memory_init(memory_t *this) {
-    this = malloc(sizeof(memory_t));
-    if (!this) {
-        //TODO CAMBIAR POR console_log_error
-        fprintf(stderr, "Error: no se pudo crear la memoria.\n");
-        return;
-    }
-    this->memory = malloc(sizeof(unsigned char) * MEMSIZE_BYTES);
+int memory_init(memory_t *this) {
+    this->memory = (unsigned char *) malloc(sizeof(unsigned char) * MEMSIZE_BYTES);
     if (!this->memory) {
-        fprintf(stderr, "Error: no se pudo alocar la memoria.\n");
-        free(this);
-        return;
+        return -1;
     }
 
-    this->cache = malloc(sizeof(cache_t));
+    this->cache = (cache_t *) malloc(sizeof(cache_t));
     if (!this->cache) {
         fprintf(stderr, "Error: no se pudo alocar la memoria cache.\n");
-        free(this->memory);
-        free(this);
-        return;
+        return -1;
     }
-    cache_init(this->cache);
-    fprintf(stdout, "Memoria creada.\n");
-    fprintf(stdout, "Miss rate %5f .\n",this->cache->miss_rate);
+    return cache_init(this->cache);
 }
 
 unsigned char memory_read_byte(memory_t *this, unsigned int address) {
@@ -42,9 +29,7 @@ void memory_read_tocache(memory_t *this, unsigned int blocknum, unsigned int way
 void memory_write_byte(memory_t *this, unsigned int address, unsigned char value) {
     console_log_debug("Writing %d to address %d", value, address);
     unsigned int block_number = address / (MEMSIZE_BYTES / BLOCK_SIZE);
-    fprintf(stdout, "Writing %d to address %d\n", value, address);
     this->memory[address] = value;
-    fprintf(stdout, "Writed in memory OK\n");
     //todo verificar si esta en cache y escribir en cache si está
     //memory_write_tocache(address, value);
 }
@@ -59,8 +44,12 @@ void memory_flush_cache(memory_t *this) {
 }
 
 int memory_destroy(memory_t *this) {
-    cache_destroy(this->cache);
+    if (this->cache) {
+        cache_destroy(this->cache);
+    }
     free(this->memory);
+    this->memory = NULL;
     free(this);
+    this = NULL;
     return 0;
 }

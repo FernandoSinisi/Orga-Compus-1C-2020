@@ -11,7 +11,7 @@ typedef struct {
     unsigned char* memory;
 } memory_t;
 
-void memory_init(memory_t* this);
+int memory_init(memory_t* this);
 unsigned char memory_read_byte(memory_t* this, unsigned int address);
 void memory_read_tocache(memory_t* this, unsigned int blocknum, unsigned int way, unsigned int set);
 void memory_write_tocache(memory_t* this, unsigned int address, unsigned char value);

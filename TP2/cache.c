@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include "cache.h"
 
-void cache_init(cache_t *this) {
+int cache_init(cache_t *this) {
     this->miss_rate = 0;
     this->ways = malloc(sizeof(way_t) * WAYS);
+    if(!this->ways){
         //TODO CONSOLE_ERROR
         fprintf(stderr, "Error: no se pudo crear las vias de la memoria cache \n");
+        return -1;
+    }
+    return 0;
 }
 
 unsigned int cache_get_offset(unsigned int address) {
@@ -26,6 +30,8 @@ float cache_get_miss_rate(cache_t *this) {
 
 int cache_destroy(cache_t *this) {
     free(this->ways);
+    this->ways = NULL;
     free(this);
+    this = NULL;
     return 0;
 }

@@ -78,7 +78,6 @@ int input_file_execute_command(input_file_t *this, memory_t *memory) {
             memory_flush_cache(memory);
             break;
         case MR_CMD:
-            fprintf(stdout, "Miss rate en input file:  %5f .\n",memory->cache->miss_rate);
             mr = memory_get_cache_miss_rate(memory);
             print_miss_rate(mr);
             break;

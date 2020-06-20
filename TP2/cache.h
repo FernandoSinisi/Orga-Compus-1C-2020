@@ -14,7 +14,7 @@ typedef struct {
     way_t* ways;
 } cache_t;
 
-void cache_init(cache_t* this);
+int cache_init(cache_t* this);
 unsigned int cache_get_offset(unsigned int address);
 unsigned int cache_get_tag(unsigned int address);
 unsigned int cache_get_index(unsigned int address);
