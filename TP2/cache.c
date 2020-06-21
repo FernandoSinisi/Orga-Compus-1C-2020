@@ -3,13 +3,12 @@
 #include "log.h"
 
 int cache_init(cache_t *this) {
-    this->miss_rate = 0;
-    this->ways = malloc(sizeof(way_t) * WAYS);
-    if(!this->ways){
-        //TODO console_log_error
-        fprintf(stderr, "Error: no se pudo crear las vias de la memoria cache \n");
-        return -1;
-    }
+    this->total_accesses = 0;
+    this->total_misses = 0;
+    int r;
+    for (int i=0; i<WAYS; i++)
+        if((r = way_init(&this->ways[i])) != 0)
+            return r;
     return 0;
 }
 
@@ -26,13 +25,23 @@ unsigned int cache_get_tag(unsigned int address) {
 }
 
 float cache_get_miss_rate(cache_t *this) {
-    return this->miss_rate;
+    if (this->total_accesses == 0){
+        return 0;
+    }
+    return (float)this->total_misses/(float)this->total_accesses;
+}
+
+int cache_write(cache_t *this, unsigned int address, unsigned char value) {
+    return 0;
+}
+
+char cache_read(cache_t *this, unsigned int address) {
+    return 0;
 }
 
 int cache_destroy(cache_t *this) {
-    free(this->ways);
-    this->ways = NULL;
-    free(this);
-    this = NULL;
+    for (int i=0; i<WAYS; i++){
+        way_destroy(&this->ways[i]);
+    }
     return 0;
 }

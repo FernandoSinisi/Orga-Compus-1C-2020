@@ -7,13 +7,7 @@ int memory_init(memory_t *this) {
     if (!this->memory) {
         return -1;
     }
-
-    this->cache = (cache_t *) malloc(sizeof(cache_t));
-    if (!this->cache) {
-        fprintf(stderr, "Error: no se pudo alocar la memoria cache.\n");
-        return -1;
-    }
-    return cache_init(this->cache);
+    return cache_init(&this->cache);
 }
 
 unsigned char memory_read_byte(memory_t *this, unsigned int address) {
@@ -26,17 +20,18 @@ void memory_read_tocache(memory_t *this, unsigned int blocknum, unsigned int way
 
 }
 
+void memory_write_tocache(memory_t *this, unsigned int address, unsigned char value) {
+}
+
 void memory_write_byte(memory_t *this, unsigned int address, unsigned char value) {
     console_log_debug("Writing %d to address %d", value, address);
     unsigned int block_number = address / (MEMSIZE_BYTES / BLOCK_SIZE);
     this->memory[address] = value;
-    //todo verificar si esta en cache y escribir en cache si está
-    //memory_write_tocache(address, value);
 }
 
 float memory_get_cache_miss_rate(memory_t *this) {
     console_log_debug("Getting cache miss rate");
-    return cache_get_miss_rate(this->cache);
+    return cache_get_miss_rate(&this->cache);
 }
 
 void memory_flush_cache(memory_t *this) {
@@ -44,12 +39,9 @@ void memory_flush_cache(memory_t *this) {
 }
 
 int memory_destroy(memory_t *this) {
-    if (this->cache) {
-        cache_destroy(this->cache);
-    }
+    cache_destroy(&this->cache);
     free(this->memory);
     this->memory = NULL;
-    free(this);
     this = NULL;
     return 0;
 }

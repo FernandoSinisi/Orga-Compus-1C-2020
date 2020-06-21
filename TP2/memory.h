@@ -7,7 +7,7 @@
 #define MEMSIZE_BYTES 65536
 
 typedef struct {
-    cache_t* cache;
+    cache_t cache;
     unsigned char* memory;
 } memory_t;
 
