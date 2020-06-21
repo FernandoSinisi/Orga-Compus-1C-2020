@@ -36,6 +36,7 @@ int cache_save_block(cache_t* this, unsigned char block[BLOCK_SIZE], unsigned in
 
 int cache_compare_tag(cache_t* this, unsigned int tag, unsigned int set);
 float cache_get_miss_rate(cache_t* this);
+int cache_flush();
 int cache_destroy(cache_t* this);
 
 #endif //TP2_CACHE_H

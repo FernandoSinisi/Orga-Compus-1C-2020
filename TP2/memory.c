@@ -49,12 +49,12 @@ float memory_get_cache_miss_rate(memory_t *this) {
 
 void memory_flush_cache(memory_t *this) {
     console_log_debug("Flushing cache");
+    cache_flush(&this->cache);
 }
 
 int memory_destroy(memory_t *this) {
     cache_destroy(&this->cache);
     free(this->memory);
     this->memory = NULL;
-    this = NULL;
     return 0;
 }

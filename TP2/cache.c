@@ -51,6 +51,10 @@ int cache_save_block(cache_t *this, unsigned char *block, unsigned int way, unsi
     return 0;
 }
 
+int cache_flush() {
+    return 0;
+}
+
 int cache_destroy(cache_t *this) {
     for (int i=0; i<WAYS; i++){
         way_destroy(&this->ways[i]);
