@@ -12,21 +12,34 @@ int memory_init(memory_t *this) {
 
 unsigned char memory_read_byte(memory_t *this, unsigned int address) {
     console_log_debug("Reading byte from address %d", address);
-    return this->memory[address];
-    //todo falta verificar en cache primero, y si no esta traer el bloque a cache
+    unsigned char data;
+    int r = cache_read(&this->cache, address, &data);
+    if (r < 0){
+        unsigned int set = cache_find_set(&this->cache, address);
+        unsigned int way = cache_select_oldest(&this->cache, set);
+        unsigned int blocknum = address/BLOCK_SIZE;
+        memory_read_tocache(this, blocknum, way, set);
+        return this->memory[address];
+    }
+    return data;
 }
 
 void memory_read_tocache(memory_t *this, unsigned int blocknum, unsigned int way, unsigned int set) {
-
+    unsigned char block[BLOCK_SIZE];
+    for (int i = 0; i < BLOCK_SIZE; i++){
+        block[i] = this->memory[BLOCK_SIZE*blocknum + i];
+    }
+    cache_save_block(&this->cache, block, way, set);
 }
 
 void memory_write_tocache(memory_t *this, unsigned int address, unsigned char value) {
+    cache_write(&this->cache, address, value);
 }
 
 void memory_write_byte(memory_t *this, unsigned int address, unsigned char value) {
     console_log_debug("Writing %d to address %d", value, address);
-    unsigned int block_number = address / (MEMSIZE_BYTES / BLOCK_SIZE);
     this->memory[address] = value;
+    memory_write_tocache(this, address, value);
 }
 
 float memory_get_cache_miss_rate(memory_t *this) {

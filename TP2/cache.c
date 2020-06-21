@@ -24,6 +24,14 @@ unsigned int cache_get_tag(unsigned int address) {
     return (address / BLOCK_SIZE) / (WAY_SIZE / BLOCK_SIZE);
 }
 
+unsigned int cache_find_set(cache_t *this, unsigned int address) {
+    return 0;
+}
+
+unsigned int cache_select_oldest(cache_t *this, unsigned int setnum) {
+    return 0;
+}
+
 float cache_get_miss_rate(cache_t *this) {
     if (this->total_accesses == 0){
         return 0;
@@ -32,10 +40,14 @@ float cache_get_miss_rate(cache_t *this) {
 }
 
 int cache_write(cache_t *this, unsigned int address, unsigned char value) {
-    return 0;
+    return -1;
 }
 
-char cache_read(cache_t *this, unsigned int address) {
+int cache_read(cache_t *this, unsigned int address, unsigned char* data_save) {
+    return -1;
+}
+
+int cache_save_block(cache_t *this, unsigned char *block, unsigned int way, unsigned int set) {
     return 0;
 }
 
