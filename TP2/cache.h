@@ -18,8 +18,7 @@ typedef struct {
 int cache_init(cache_t* this);
 unsigned int cache_get_offset(unsigned int address);
 unsigned int cache_get_tag(unsigned int address);
-unsigned int cache_get_index(unsigned int address);
-unsigned int cache_find_set(cache_t* this, unsigned int address);
+unsigned int cache_find_set(unsigned int address);
 unsigned int cache_select_oldest(cache_t* this, unsigned int setnum);
 
 // lee el dato de cache si está presente, sino actualiza los misses
@@ -34,9 +33,12 @@ int cache_write(cache_t* this, unsigned int address, unsigned char value);
 // devuelve 0 en caso de exito, -1 en otro caso
 int cache_save_block(cache_t* this, unsigned char block[BLOCK_SIZE], unsigned int way, unsigned int set);
 
+// Aumenta en uno el contador de cada bloque del set especificado por index
+void cache_update_counts(cache_t* this, int index);
+
 int cache_compare_tag(cache_t* this, unsigned int tag, unsigned int set);
 float cache_get_miss_rate(cache_t* this);
-int cache_flush();
+int cache_flush(cache_t* this);
 int cache_destroy(cache_t* this);
 
 #endif //TP2_CACHE_H

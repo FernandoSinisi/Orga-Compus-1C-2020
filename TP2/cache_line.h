@@ -16,4 +16,10 @@ int line_init(line_t* line);
 
 void line_destroy(line_t* line);
 
+bool line_is_valid(line_t* line);
+
+bool line_tag_match(line_t* line, int tag);
+
+char line_get_byte_at(line_t* line, int offset);
+
 #endif // CACHE_LINE_H

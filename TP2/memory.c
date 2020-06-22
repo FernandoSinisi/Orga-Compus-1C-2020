@@ -15,7 +15,7 @@ unsigned char memory_read_byte(memory_t *this, unsigned int address) {
     unsigned char data;
     int r = cache_read(&this->cache, address, &data);
     if (r < 0){
-        unsigned int set = cache_find_set(&this->cache, address);
+        unsigned int set = cache_find_set(address);
         unsigned int way = cache_select_oldest(&this->cache, set);
         unsigned int blocknum = address/BLOCK_SIZE;
         memory_read_tocache(this, blocknum, way, set);
