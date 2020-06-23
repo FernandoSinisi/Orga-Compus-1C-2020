@@ -24,6 +24,8 @@ void way_write_block(way_t* this, unsigned char* block, unsigned int set,
 
 int way_destroy(way_t* this);
 
+bool way_valid_line(way_t* this, unsigned int set);
+
 int way_get_line_count(way_t* this, unsigned int index);
 
 void way_update_line_count(way_t* this, unsigned int index);

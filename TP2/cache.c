@@ -5,7 +5,6 @@
 int _cache_compare_update_count(cache_t* this, unsigned int tag, unsigned int set) {
     int way;
     if ((way = cache_compare_tag(this, tag, set)) < 0) {
-        printf("Fue un miss!\n");
         this->total_misses++;
         return -1;
     }
@@ -42,6 +41,9 @@ unsigned int cache_select_oldest(cache_t *this, unsigned int setnum) {
     int max_count_way = -1;
     int curr_count;
     for (int i = 0; i < WAYS; i++) {
+        if (!way_valid_line(&this->ways[i], setnum)) {
+            return i; // Si no es valido uso ese;
+        }
         if ((curr_count = way_get_line_count(&this->ways[i], setnum)) > max_count) {
             max_count = curr_count;
             max_count_way = i;

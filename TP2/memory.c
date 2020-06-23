@@ -19,7 +19,6 @@ unsigned char memory_read_byte(memory_t *this, unsigned int address) {
         unsigned int way = cache_select_oldest(&this->cache, set);
         unsigned int tag = cache_get_tag(address);
         unsigned int blocknum = address/BLOCK_SIZE;
-        printf("El blocksize de %d es :%d\n", address, blocknum);
         memory_read_tocache(this, blocknum, way, set, tag);
         return this->memory[address];
     }

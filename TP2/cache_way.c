@@ -44,6 +44,10 @@ void way_update_line_count(way_t* this, unsigned int index) {
     this->lines[index].count_since_access++;
 }
 
+bool way_valid_line(way_t* this, unsigned int set) {
+    return line_is_valid(&this->lines[set]);
+}
+
 void way_reset_line_count(way_t* this, unsigned int index) {
     this->lines[index].count_since_access = 0;
 }
