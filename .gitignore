@@ -54,7 +54,8 @@ dkms.conf
 .DS_Store
 
 # Ignorar la carpeta del ejecutable
-TP1/bin/*
+TP1/bin/
+TP2/bin/
 
 # Ignorar output del programa
 *.pbm
