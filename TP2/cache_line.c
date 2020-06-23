@@ -6,7 +6,7 @@
 
 
 int line_init(line_t* line) {
-    line->bytes = (char*)malloc(sizeof(char) * LINE_SIZE);
+    line->bytes = (unsigned char*)malloc(sizeof(char) * LINE_SIZE);
     if (line->bytes == NULL) {return -1;}
 
     line->valid = false;
