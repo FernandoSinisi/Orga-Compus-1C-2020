@@ -1,0 +1,16 @@
+
+Comandos:
+
+    make cache [path=<path>]                    Compila el programa
+    make run file=<input_file> [path=<path>]    Ejecuta el programa con input_file como entrada
+    make clean [path=<path>]                    Limpia los archivos generados automáticamente
+    make help                                   Muestra este mensaje
+
+Nota: por defecto se utilizará la carpeta 'bin' (se crea si no existe)
+
+Ejemplo:
+
+    make cache path=ejecutable                  Compila el programa en la carpeta 'ejecutable'
+    make run file=prueba1.mem path=ejecutable   Ejecuta el programa con prueba1.mem
+    make clean path=ejecutable                  Limpia el ejecutable de la carpeta
+

@@ -5,9 +5,7 @@ CFLAGS := $(flags)
 CFLAGS += -Wall -g -O0
 
 ifndef $(cc)
-	CC := gcc
-else
-	CC := $(cc)
+	cc := gcc
 endif
 
 ifndef $(path)
@@ -16,7 +14,7 @@ endif
 
 cache: *.c
 	@mkdir -p $(path)
-	$(CC) $(CFLAGS) -o $(path)/$@ $^
+	$(cc) $(CFLAGS) -o $(path)/$@ $^
 
 run:
 	@./$(path)/cache $(file)
@@ -27,4 +25,4 @@ help:
 clean:
 	@rm $(RM_FLAGS) $(path)/*
 
-.PHONY: clean help
+.PHONY: clean help run
