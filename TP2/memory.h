@@ -13,9 +13,9 @@ typedef struct {
 
 int memory_init(memory_t* this);
 unsigned char memory_read_byte(memory_t* this, unsigned int address);
-void memory_read_tocache(memory_t* this, unsigned int blocknum, unsigned int way,
-                         unsigned int set, unsigned int tag);
-void memory_write_tocache(memory_t* this, unsigned int address, unsigned char value);
+void _memory_read_tocache(memory_t* this, unsigned int blocknum, unsigned int way,
+                          unsigned int set, unsigned int tag);
+void _memory_write_tocache(memory_t* this, unsigned int address, unsigned char value);
 void memory_write_byte(memory_t* this, unsigned int address, unsigned char value);
 float memory_get_cache_miss_rate(memory_t* this);
 void memory_flush_cache(memory_t* this);

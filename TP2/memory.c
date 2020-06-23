@@ -19,14 +19,14 @@ unsigned char memory_read_byte(memory_t *this, unsigned int address) {
         unsigned int way = cache_select_oldest(&this->cache, set);
         unsigned int tag = cache_get_tag(address);
         unsigned int blocknum = address/BLOCK_SIZE;
-        memory_read_tocache(this, blocknum, way, set, tag);
+        _memory_read_tocache(this, blocknum, way, set, tag);
         return this->memory[address];
     }
     return data;
 }
 
-void memory_read_tocache(memory_t *this, unsigned int blocknum,
-                         unsigned int way, unsigned int set, unsigned int tag) {
+void _memory_read_tocache(memory_t *this, unsigned int blocknum,
+                          unsigned int way, unsigned int set, unsigned int tag) {
     unsigned char block[BLOCK_SIZE];
     for (int i = 0; i < BLOCK_SIZE; i++){
         block[i] = this->memory[BLOCK_SIZE*blocknum + i];
@@ -34,14 +34,14 @@ void memory_read_tocache(memory_t *this, unsigned int blocknum,
     cache_save_block(&this->cache, block, way, set, tag);
 }
 
-void memory_write_tocache(memory_t *this, unsigned int address, unsigned char value) {
+void _memory_write_tocache(memory_t *this, unsigned int address, unsigned char value) {
     cache_write(&this->cache, address, value);
 }
 
 void memory_write_byte(memory_t *this, unsigned int address, unsigned char value) {
     console_log_debug("memory: writing %d to address %d", value, address);
     this->memory[address] = value;
-    memory_write_tocache(this, address, value);
+    _memory_write_tocache(this, address, value);
 }
 
 float memory_get_cache_miss_rate(memory_t *this) {
