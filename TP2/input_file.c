@@ -8,7 +8,7 @@
 int input_file_init(input_file_t *this, char *filename) {
     this->file = fopen(filename, "r");
     if (!this->file) {
-        fprintf(stderr, "Error: no se puede abrir el archivo\n");
+        console_log_error("Could not open file: %s", filename);
         return -1;
     }
     return 0;
@@ -20,8 +20,10 @@ int parse_command(input_file_t *this, char *line) {
     int arg2 = -1;
     int r = sscanf(line, "%s %d, %d", cmd, &arg1, &arg2);
 
-    if (r == EOF)
+    if (r == EOF) {
+        console_log_error("Could not parse command: %s", cmd);
         return 1;
+    }
 
     if (strncmp(cmd, "R", 1) == 0) {
         this->current_cmd[0] = READ_CMD;
@@ -39,6 +41,7 @@ int parse_command(input_file_t *this, char *line) {
     } else if (strncmp(cmd, "MR", 2) == 0) {
         this->current_cmd[0] = MR_CMD;
     } else {
+        console_log_error("Invalid instruction: %s", cmd);
         return 1;
     }
 
