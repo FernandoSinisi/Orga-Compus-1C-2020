@@ -11,7 +11,7 @@ int memory_init(memory_t *this) {
 }
 
 unsigned char memory_read_byte(memory_t *this, unsigned int address) {
-    console_log_debug("Reading byte from address %d", address);
+    console_log_debug("memory: reading byte from address %d", address);
     unsigned char data;
     int r = cache_read(&this->cache, address, &data);
     if (r < 0){
@@ -39,18 +39,18 @@ void memory_write_tocache(memory_t *this, unsigned int address, unsigned char va
 }
 
 void memory_write_byte(memory_t *this, unsigned int address, unsigned char value) {
-    console_log_debug("Writing %d to address %d", value, address);
+    console_log_debug("memory: writing %d to address %d", value, address);
     this->memory[address] = value;
     memory_write_tocache(this, address, value);
 }
 
 float memory_get_cache_miss_rate(memory_t *this) {
-    console_log_debug("Getting cache miss rate");
+    console_log_debug("memory: getting cache miss rate");
     return cache_get_miss_rate(&this->cache);
 }
 
 void memory_flush_cache(memory_t *this) {
-    console_log_debug("Flushing cache");
+    console_log_debug("memory: flushing cache");
     cache_flush(&this->cache);
 }
 

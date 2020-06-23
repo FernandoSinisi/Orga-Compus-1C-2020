@@ -6,9 +6,10 @@ int _cache_compare_update_count(cache_t* this, unsigned int tag, unsigned int se
     int way;
     if ((way = cache_compare_tag(this, tag, set)) < 0) {
         this->total_misses++;
+        console_log("Cache miss");
         return -1;
     }
-
+    console_log("Cache hit");
     cache_update_counts(this, set);
     way_reset_line_count(&this->ways[way], set);
     return way;

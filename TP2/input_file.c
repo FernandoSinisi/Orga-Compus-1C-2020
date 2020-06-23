@@ -55,31 +55,26 @@ int input_file_read_command(input_file_t *this) {
     return 0;
 }
 
-void print_miss_rate(float mr) {
-    console_log("Cache miss rate: %5f", mr);
-}
-
-void print_read_byte(unsigned char read) {
-    console_log("Data read from memory: %u", read);
-}
-
 int input_file_execute_command(input_file_t *this, memory_t *memory) {
     float mr = 0;
     unsigned char read = 0;
     switch (this->current_cmd[0]) {
         case READ_CMD:
+            console_log("Reading from address %d", this->current_cmd[1]);
             read = memory_read_byte(memory, this->current_cmd[1]);
-            print_read_byte(read);
+            console_log("Data read from memory: %u", read);
             break;
         case WRITE_CMD:
+            console_log("Writing %d to address %d", this->current_cmd[2], this->current_cmd[1]);
             memory_write_byte(memory, this->current_cmd[1], this->current_cmd[2]);
             break;
         case FLUSH_CMD:
+            console_log("Flushing cache");
             memory_flush_cache(memory);
             break;
         case MR_CMD:
             mr = memory_get_cache_miss_rate(memory);
-            print_miss_rate(mr);
+            console_log("Cache miss rate: %5f", mr);
             break;
         default:
             return 1;
