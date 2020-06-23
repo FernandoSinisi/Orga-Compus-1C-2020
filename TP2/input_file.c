@@ -27,13 +27,29 @@ int parse_command(input_file_t *this, char *line) {
 
     if (strncmp(cmd, "R", 1) == 0) {
         this->current_cmd[0] = READ_CMD;
-        if (arg1 < 0)
+        if (arg1 > MEMSIZE_BYTES) {
+            console_log_error("Invalid argument for read: out of range");
             return 1;
+        }
+
+        if (arg1 < 0){
+            console_log_error("Invalid argument for read: missing argument");
+            return 1;
+        }
+
         this->current_cmd[1] = arg1;
     } else if (strncmp(cmd, "W", 1) == 0) {
         this->current_cmd[0] = WRITE_CMD;
-        if (arg1 < 0 || arg2 < 0)
+        if (arg1 < 0 || arg2 < 0) {
+            console_log_error("Invalid argument for write: missing argument");
             return 1;
+        }
+
+        if (arg1 > MEMSIZE_BYTES || arg2 > MEMSIZE_BYTES){
+            console_log_error("Invalid argument for write: out of range");
+            return 1;
+        }
+
         this->current_cmd[1] = arg1;
         this->current_cmd[2] = arg2;
     } else if (strncmp(cmd, "FLUSH", 5) == 0) {
