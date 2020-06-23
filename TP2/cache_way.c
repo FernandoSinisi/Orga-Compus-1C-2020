@@ -19,25 +19,32 @@ int way_destroy(way_t *this) {
     return 0;
 }
 
-bool way_tag_match(way_t* this, int tag, int index) {
+bool way_tag_match(way_t* this, unsigned int tag, unsigned int index) {
     line_t line = this->lines[index];
     return line_is_valid(&line) && line_tag_match(&line, tag);
 }
 
-char way_get_byte(way_t* this, int index, int offset) {
-
+char way_get_byte(way_t* this, unsigned int index, unsigned int offset) {
     return line_get_byte_at(&this->lines[index], offset);
 }
 
-int way_get_line_count(way_t* this, int index) {
+void way_write_byte(way_t* this, unsigned int set, unsigned int offset, unsigned char value) {
+    line_write_byte_at(&this->lines[set], offset, value);
+}
+
+void way_write_block(way_t* this, unsigned char* block, unsigned int set, unsigned int tag) {
+    line_fill_block(&this->lines[set], block, tag);
+}
+
+int way_get_line_count(way_t* this, unsigned int index) {
     return this->lines[index].count_since_access;
 }
 
-void way_update_line_count(way_t* this, int index) {
+void way_update_line_count(way_t* this, unsigned int index) {
     this->lines[index].count_since_access++;
 }
 
-void way_reset_line_count(way_t* this, int index) {
+void way_reset_line_count(way_t* this, unsigned int index) {
     this->lines[index].count_since_access = 0;
 }
 

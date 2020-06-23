@@ -17,19 +17,22 @@ unsigned char memory_read_byte(memory_t *this, unsigned int address) {
     if (r < 0){
         unsigned int set = cache_find_set(address);
         unsigned int way = cache_select_oldest(&this->cache, set);
+        unsigned int tag = cache_get_tag(address);
         unsigned int blocknum = address/BLOCK_SIZE;
-        memory_read_tocache(this, blocknum, way, set);
+        printf("El blocksize de %d es :%d\n", address, blocknum);
+        memory_read_tocache(this, blocknum, way, set, tag);
         return this->memory[address];
     }
     return data;
 }
 
-void memory_read_tocache(memory_t *this, unsigned int blocknum, unsigned int way, unsigned int set) {
+void memory_read_tocache(memory_t *this, unsigned int blocknum,
+                         unsigned int way, unsigned int set, unsigned int tag) {
     unsigned char block[BLOCK_SIZE];
     for (int i = 0; i < BLOCK_SIZE; i++){
         block[i] = this->memory[BLOCK_SIZE*blocknum + i];
     }
-    cache_save_block(&this->cache, block, way, set);
+    cache_save_block(&this->cache, block, way, set, tag);
 }
 
 void memory_write_tocache(memory_t *this, unsigned int address, unsigned char value) {

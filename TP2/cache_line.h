@@ -6,7 +6,7 @@
 #define LINE_SIZE 128
 
 typedef struct {
-    char* bytes;
+    unsigned char* bytes;
     unsigned int tag;
     unsigned int count_since_access;
     bool valid;
@@ -18,8 +18,12 @@ void line_destroy(line_t* line);
 
 bool line_is_valid(line_t* line);
 
-bool line_tag_match(line_t* line, int tag);
+bool line_tag_match(line_t* line, unsigned int tag);
 
-char line_get_byte_at(line_t* line, int offset);
+char line_get_byte_at(line_t* line, unsigned int offset);
+
+void line_write_byte_at(line_t* line, unsigned int offset, unsigned char value);
+
+void line_fill_block(line_t* line, unsigned char* block, unsigned int tag);
 
 #endif // CACHE_LINE_H

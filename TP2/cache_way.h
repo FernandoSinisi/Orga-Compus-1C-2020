@@ -13,17 +13,22 @@ typedef struct {
 // no se pueda pedir la memoria necesaria
 int way_init(way_t* this);
 
-bool way_tag_match(way_t* this, int tag, int index);
+bool way_tag_match(way_t* this, unsigned int tag, unsigned int index);
 
-char way_get_byte(way_t* this, int index, int offset);
+char way_get_byte(way_t* this, unsigned int index, unsigned int offset);
+
+void way_write_byte(way_t* this, unsigned int set, unsigned int offset, unsigned char value);
+
+void way_write_block(way_t* this, unsigned char* block, unsigned int set,
+                     unsigned int tag);
 
 int way_destroy(way_t* this);
 
-int way_get_line_count(way_t* this, int index);
+int way_get_line_count(way_t* this, unsigned int index);
 
-void way_update_line_count(way_t* this, int index);
+void way_update_line_count(way_t* this, unsigned int index);
 
-void way_reset_line_count(way_t* this, int index);
+void way_reset_line_count(way_t* this, unsigned int index);
 
 // Solo resetea el contador y setea el bit de validez a invalido
 void way_flush(way_t* this);

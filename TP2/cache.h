@@ -31,10 +31,11 @@ int cache_write(cache_t* this, unsigned int address, unsigned char value);
 
 // escribe el bloque 'block' en la via y conjunto indicados
 // devuelve 0 en caso de exito, -1 en otro caso
-int cache_save_block(cache_t* this, unsigned char block[BLOCK_SIZE], unsigned int way, unsigned int set);
+int cache_save_block(cache_t* this, unsigned char block[BLOCK_SIZE], 
+                     unsigned int way, unsigned int set, unsigned int tag);
 
 // Aumenta en uno el contador de cada bloque del set especificado por index
-void cache_update_counts(cache_t* this, int index);
+void cache_update_counts(cache_t* this, unsigned int index);
 
 int cache_compare_tag(cache_t* this, unsigned int tag, unsigned int set);
 float cache_get_miss_rate(cache_t* this);

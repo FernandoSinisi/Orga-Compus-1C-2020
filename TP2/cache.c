@@ -2,6 +2,19 @@
 #include "cache.h"
 #include "log.h"
 
+int _cache_compare_update_count(cache_t* this, unsigned int tag, unsigned int set) {
+    int way;
+    if ((way = cache_compare_tag(this, tag, set)) < 0) {
+        printf("Fue un miss!\n");
+        this->total_misses++;
+        return -1;
+    }
+
+    cache_update_counts(this, set);
+    way_reset_line_count(&this->ways[way], set);
+    return way;
+}
+
 int cache_init(cache_t *this) {
     this->total_accesses = 0;
     this->total_misses = 0;
@@ -45,29 +58,39 @@ float cache_get_miss_rate(cache_t *this) {
 }
 
 int cache_write(cache_t *this, unsigned int address, unsigned char value) {
-    return -1;
+    this->total_accesses++;
+
+    int way;
+    unsigned int set = cache_find_set(address);
+    unsigned int tag = cache_get_tag(address);
+    unsigned int offset = cache_get_offset(address);
+
+    if ((way = _cache_compare_update_count(this, tag, set)) < 0) {
+        return -1;
+    }
+    way_write_byte(&this->ways[way], set, offset, value);
+    return 0;
 }
 
 int cache_read(cache_t *this, unsigned int address, unsigned char* data_save) {
     this->total_accesses++;
-    int way;
-    int set = cache_find_set(address);
-    int tag = cache_get_tag(address);
-    int offset = cache_get_offset(address);
 
-    if ((way = cache_compare_tag(this, tag, set)) < 0) {
-        this->total_misses++;
+    int way;
+    unsigned int set = cache_find_set(address);
+    unsigned int tag = cache_get_tag(address);
+    unsigned int offset = cache_get_offset(address);
+
+    if ((way = _cache_compare_update_count(this, tag, set)) < 0) {
         return -1;
     }
-
-    cache_update_counts(this, set);
-    way_reset_line_count(&this->ways[way], set);
 
     *data_save = way_get_byte(&this->ways[way], set, offset);
     return 0;
 }
 
-int cache_save_block(cache_t *this, unsigned char *block, unsigned int way, unsigned int set) {
+int cache_save_block(cache_t *this, unsigned char *block, unsigned int way, 
+                     unsigned int set, unsigned int tag) {
+    way_write_block(&this->ways[way], block, set, tag);
     return 0;
 }
 
@@ -80,7 +103,7 @@ int cache_compare_tag(cache_t* this, unsigned int tag, unsigned int set) {
     return -1;
 }
 
-void cache_update_counts(cache_t* this, int index) {
+void cache_update_counts(cache_t* this, unsigned int index) {
     for (int i = 0; i < WAYS; i++) {
         way_update_line_count(&this->ways[i], index);
     }
@@ -99,3 +122,5 @@ int cache_destroy(cache_t *this) {
     }
     return 0;
 }
+
+
