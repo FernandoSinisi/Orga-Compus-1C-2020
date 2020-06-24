@@ -28,7 +28,7 @@ int parse_command(input_file_t *this, char *line) {
     if (strncmp(cmd, "R", 1) == 0) {
         this->current_cmd[0] = READ_CMD;
         if (arg1 > MEMSIZE_BYTES) {
-            console_log_error("Invalid argument for read: out of range");
+            console_log_error("Invalid argument for read: address %d out of range", arg1);
             return 1;
         }
 
@@ -45,8 +45,8 @@ int parse_command(input_file_t *this, char *line) {
             return 1;
         }
 
-        if (arg1 > MEMSIZE_BYTES || arg2 > MEMSIZE_BYTES){
-            console_log_error("Invalid argument for write: out of range");
+        if (arg1 > MEMSIZE_BYTES){
+            console_log_error("Invalid argument for write: address %d out of range", arg1);
             return 1;
         }
 
