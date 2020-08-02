@@ -46,7 +46,9 @@
 		"ForkMem":    {"type": "Fork", "x": 575, "y": 275, "size": 32, "in": "In", "out": ["Out1", "Out2", "Out3"]},
 		"ForkEXR1":   {"type": "Fork", "x": 575, "y": 360, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
 		"DataMem":    {"type": "DataMemory", "latency": 400, "x": 580, "y": 242, "size": 100, "address": "Address", "write_data": "WriteData", "out": "ReadData", "mem_read": "MemRead", "mem_write": "MemWrite"},
+		
 		"AndBranch":  {"type": "And", "x": 600, "y": 180, "in1": "Branch", "in2": "Zero", "out": "Branch", "desc": {"default": "Determines if a branch should occur.", "pt": "Determina se um branch será efectuado."}},
+		
 		"ForkDst1":   {"type": "Fork", "x": 570, "y": 387, "size": 5, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkRegWR1": {"type": "Fork", "x": 670, "y": 125, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkMemRd":  {"type": "Fork", "x": 420, "y": 140, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
@@ -61,7 +63,12 @@
 		"ForkRegWR2": {"type": "Fork", "x": 710, "y": 125, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkDst2":   {"type": "Fork", "x": 705, "y": 440, "size": 5, "in": "In", "out": ["Out1", "Out2"]},
 		"ForkMemR1":  {"type": "Fork", "x": 416, "y": 480, "size": 32, "in": "In", "out": ["Out1", "Out2"]},
-		"MuxJump2":   {"type": "Multiplexer", "latency": 15, "x": 30, "y": 320, "size": 32, "sel": "JumpSrc", "in": ["0", "1"], "out": "Out", "desc": {"default": "Selects the jump address as the new PC."}}
+		
+		"MuxJump2":   {"type": "Multiplexer", "latency": 15, "x": 30, "y": 320, "size": 32, "sel": "Jump", "in": ["0", "1"], "out": "Out", "desc": {"default": "Selects the jump address as the new PC."}},
+		
+		"OrJump":    {"type": "Or", "x": 600, "y": 50, "in1": "Branch", "in2": "JumpSrc", "out": "Flush"}
+
+		
 	},
 	"wires": [
 		{"from": "PC", "out": "PC", "to": "ForkPC", "in": "In"},
@@ -162,7 +169,9 @@
 		{"from": "EX/MEM", "out": "Target", "to": "MuxPC", "in": "1", "start": {"x": 565, "y": 181}, "points": [{"x": 575, "y": 181}, {"x": 575, "y": 67}, {"x": 5, "y": 67}, {"x": 5, "y": 270}]},
 		{"from": "EX/MEM", "out": "Zero", "to": "AndBranch", "in": "Zero", "start": {"x": 565, "y": 255}, "points": [{"x": 572, "y": 255}, {"x": 572, "y": 200}]},
 		{"from": "EX/MEM", "out": "Branch", "to": "AndBranch", "in": "Branch", "start": {"x": 565, "y": 145}, "points": [{"x": 580, "y": 145}, {"x": 580, "y": 190}]},
-		{"from": "AndBranch", "out": "Branch", "to": "ForkBr1", "in": "In", "points": [{"x": 640, "y": 195}, {"x": 640, "y": 62}]},
+		
+		{"from": "AndBranch", "out": "Branch", "to": "OrJump", "in": "Branch","end": {"x": 600, "y": 60}, "points": [{"x": 640, "y": 195}, {"x": 640, "y": 60}]},
+		
 		{"from": "ForkBr1", "out": "Out1", "to": "ForkBr2", "in": "In"},
 		{"from": "ForkBr1", "out": "Out2", "to": "EX/MEM", "in": "Flush"},
 		{"from": "ForkBr2", "out": "Out1", "to": "ForkBr3", "in": "In"},
@@ -191,11 +200,20 @@
 		{"from": "ForkRegWR2", "out": "Out2", "to": "ForwardingUnit", "in": "MEM/WB.RegWrite", "points": [{"x": 710, "y": 450}]},
 		
 		{"from": "Control", "out": "JumpSrc", "to": "ID/EX", "in": "JumpSrc", "start": {"x": 290, "y": 120}, "end": {"x": 390, "y": 120}},
+        
         {"from": "ID/EX", "out": "JumpSrc", "to": "EX/MEM", "in": "JumpSrc", "start": {"x": 405, "y": 120}, "end": {"x": 550, "y": 120}},
-		{"from": "EX/MEM", "out": "JumpSrc", "to": "MuxJump2", "in": "JumpSrc","start": {"x": 565, "y": 120}, "points": [{"x": 580, "y": 120},{"x": 580, "y": 64},{"x": 37, "y": 64}]},
+				
 		{"from": "MuxJump2", "out": "Out", "to": "PC", "in": "NewPC"},
 		
-		{"from": "ForkMem", "out": "Out3", "to": "MuxJump2", "in": "1", "points": [{"x": 575, "y": 450},{"x": 25, "y": 450},{"x": 25, "y": 341}]}
+		{"from": "ForkMem", "out": "Out3", "to": "MuxJump2", "in": "1", "points": [{"x": 575, "y": 450},{"x": 25, "y": 450},{"x": 25, "y": 341}]},
+		
+		{"from": "OrJump", "out": "Flush", "to": "ForkBr1", "in": "In","start": {"x": 600, "y": 62}},
+		
+		{"from": "EX/MEM", "out": "JumpSrc", "to": "OrJump", "in": "JumpSrc","start": {"x": 565, "y": 150}, "points": [{"x": 635, "y": 150},{"x": 635, "y": 70}]}
+
+
+		
+		
 	],
 	"reg_names": ["zero", "at", "v0", "v1", "a0", "a1", "a2", "a3", "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "t8", "t9", "k0", "k1", "gp", "sp", "fp", "ra"],
 	"instructions": "tp3-pipeline.set"
