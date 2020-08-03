@@ -66,8 +66,9 @@
 		
 		"MuxJump2":   {"type": "Multiplexer", "latency": 15, "x": 30, "y": 320, "size": 32, "sel": "Jump", "in": ["0", "1"], "out": "Out", "desc": {"default": "Selects the jump address as the new PC."}},
 		
-		"OrJump":    {"type": "Or", "x": 600, "y": 50, "in1": "Branch", "in2": "JumpSrc", "out": "Flush"}
-
+		"OrJump":    {"type": "Or", "x": 600, "y": 50, "in1": "Branch", "in2": "JumpSrc", "out": "Flush"},
+		"ForkJump":    {"type": "Fork", "x": 635, "y": 150, "size": 1, "in": "In", "out": ["Out1", "Out2"]},
+		"ForkJump2":    {"type": "Fork", "x": 421, "y": 462, "size": 32, "in": "In", "out": ["Out1", "Out2"]}
 		
 	},
 	"wires": [
@@ -162,7 +163,11 @@
 		{"from": "ForkMem", "out": "Out1", "to": "DataMem", "in": "Address"},
 		{"from": "ForkMem", "out": "Out2", "to": "ForkEXR1", "in": "In"},
 		{"from": "ForkEXR1", "out": "Out1", "to": "MEM/WB", "in": "Result", "end": {"x": 680, "y": 360}},
-		{"from": "ForkEXR1", "out": "Out2", "to": "ForkEXR2", "in": "In", "points": [{"x": 575, "y": 462}, {"x": 421, "y": 462}]},
+		
+		
+		{"from": "ForkEXR1", "out": "Out2", "to": "ForkJump2", "in": "In", "points": [{"x": 575, "y": 462}]},
+		{"from": "ForkJump2", "out": "Out1", "to": "ForkEXR2", "in": "In"},
+
 		{"from": "ForkEXR2", "out": "Out1", "to": "MuxFwdA", "in": "2", "points": [{"x": 421, "y": 259}], "end": {"x": 425, "y": 259}},
 		{"from": "EX/MEM", "out": "ReadData2", "to": "DataMem", "in": "WriteData", "start": {"x": 565, "y": 308}},
 		{"from": "DataMem", "out": "ReadData", "to": "MEM/WB", "in": "ReadData", "end": {"x": 680, "y": 292}},
@@ -205,11 +210,42 @@
 				
 		{"from": "MuxJump2", "out": "Out", "to": "PC", "in": "NewPC"},
 		
-		{"from": "ForkMem", "out": "Out3", "to": "MuxJump2", "in": "1", "points": [{"x": 575, "y": 450},{"x": 25, "y": 450},{"x": 25, "y": 341}]},
+		{"from": "ForkJump2", "out": "Out2", "to": "MuxJump2", "in": "1", "points": [{"x": 25, "y": 462},{"x": 25, "y": 341}]},
 		
 		{"from": "OrJump", "out": "Flush", "to": "ForkBr1", "in": "In","start": {"x": 600, "y": 62}},
 		
-		{"from": "EX/MEM", "out": "JumpSrc", "to": "OrJump", "in": "JumpSrc","start": {"x": 565, "y": 150}, "points": [{"x": 635, "y": 150},{"x": 635, "y": 70}]}
+		{
+			"from": "EX/MEM", 
+			"out": "JumpSrc", 
+			"to": "ForkJump", 
+			"in": "In",
+			"start": {
+				"x": 565, 
+				"y": 150
+			}
+		},
+		{
+			"from": "ForkJump", 
+			"out": "Out1", 
+			"to": "OrJump", 
+			"in": "JumpSrc",
+			"points": [
+				{"x": 635, "y": 150},
+				{"x": 635, "y": 70}
+			]
+		},
+		{
+			"from": "ForkJump", 
+			"out": "Out2", 
+			"to": "MuxJump2", 
+			"in": "Jump",
+			"points": [
+				{"x": 665, "y": 150},
+				{"x": 665, "y": 475},
+				{"x": 37, "y": 475}
+			],
+			"end": {"x": 37, "y": 355}
+		}
 
 
 		
